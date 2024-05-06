@@ -13,6 +13,7 @@ const selectedItem = ref();
 const chartRefs = ref(null);
 const headline=ref(null);
 const isLoading: Ref<boolean> = ref(false);
+const hasNetworkError: Ref<boolean> = ref(false);
 const showSidebar: Ref<boolean> = ref(false);
 // Fetch items when component is mounted
 getItems();
@@ -25,6 +26,7 @@ async function getItems() {
 
   } catch (error) {
     console.error('Error fetching items:', error);
+    hasNetworkError.value = true;
   } finally {
     isLoading.value = false;
   }
@@ -43,6 +45,7 @@ const onCloseSidebar = () =>{
 
 <template>
   <div>
+    <div v-if="hasNetworkError">Unable to connect to server</div>
     <div v-if="isLoading">
       Loading.....
     </div>
